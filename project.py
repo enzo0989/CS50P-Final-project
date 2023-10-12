@@ -23,7 +23,7 @@ def create(name):
 
 def load(filename):
     # Non essential in this point of the project.
-    return f"{name}"
+    return f"{filename}"
 
 
 
