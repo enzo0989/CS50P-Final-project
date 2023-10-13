@@ -47,7 +47,6 @@ def action(list):
 
 
 def add(n,file):
-    global i
     with open(file, "a") as todo_list:
         task = input("What task do you want to add?: ")
         date = input("by which day do you think you should finish this task?: ")
