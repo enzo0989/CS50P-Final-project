@@ -1,4 +1,4 @@
-import argparse, sys, csv, re
+import argparse, sys,csv, re
 
 def main():
     # Initialization of the program, it let's you pick either to load a previous list or to create a new one.
@@ -31,6 +31,7 @@ def action(list):
         try:
             prompt = input("What kind of action do you want to perform?: ")
             if prompt == "add":
+                # i is used to enumerate the tasks. 
                 i += 1
                 add(i,list)
             elif prompt == "modify":
@@ -50,6 +51,7 @@ def add(n,file):
     with open(file, "a") as todo_list:
         task = input("What task do you want to add?: ")
         date = input("by which day do you think you should finish this task?: ")
+
         writer = csv.DictWriter(todo_list, fieldnames=["N°","task", "date"])
         writer.writerow({"N°": n,"task": task,"date": date})
 
@@ -64,7 +66,8 @@ def delete(list):
 def view(list):
     with open(list, "r") as file:
         reader = csv.DictReader(file)
-
+        for row in reader:
+            print(row["N°"],row["task"], row["date"])
         
 
 
