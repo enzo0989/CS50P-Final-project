@@ -29,13 +29,10 @@ def load(filename):
     ...
 
 def action(list):
-    #i = 0
     while True:
         try:
             prompt = input("What kind of action do you want to perform?: ")
             if prompt == "add":
-                # i is used to enumerate the tasks. 
-                #i += 1
                 add(list)
             elif prompt == "modify":
                 modify(list)
@@ -45,7 +42,6 @@ def action(list):
                 view(list)
             else:
                 pass
-
         except EOFError:
             break
 
@@ -61,12 +57,22 @@ def add(file):
     
 
 def modify(list):
-    old_task = int(input("Number of the task you want to modify: ")) - 1
-    new_task = input("new task: ")
-    
-    df = pd.read_csv(list)
-    df.loc[old_task,"task"] = new_task
-    df.to_csv(list, index=False)
+    try:
+        df = pd.read_csv(list)
+        print(len(df))
+        old_task = int(input("Number of the task you want to modify: "))
+        
+        if old_task > len(df) - 1:    
+            raise ValueError()
+        
+        else:
+            new_task = input("new task: ")
+            df.loc[old_task,"task"] = new_task
+            df.to_csv(list, index=False)
+    except ValueError:
+        print("\nThe task to be modified has to exist \n")
+        pass
+
 
 def delete(list):
     ...
@@ -77,7 +83,7 @@ def view(list):
         reader = csv.DictReader(file)
         for row in reader:
             view_list.append({"task":row["task"],"date": row["date"]})
-    print(tabulate(view_list, tablefmt="heavy_grid" ,headers="keys", showindex="rowIDs"))
+    print(tabulate(view_list, tablefmt="heavy_grid" ,headers="keys", showindex="always"))
 
 
 if __name__ == "__main__":
