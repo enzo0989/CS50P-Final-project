@@ -22,21 +22,21 @@ def main():
 def create():
         with open("TodoList.csv", "w") as file_list:
             key_writer = csv.writer(file_list)
-            key_writer.writerow(["N°","task","date"])
+            key_writer.writerow(["task","date"])
         action(file_list.name)
         
 def load(filename): 
     ...
 
 def action(list):
-    i = 0
+    #i = 0
     while True:
         try:
             prompt = input("What kind of action do you want to perform?: ")
             if prompt == "add":
                 # i is used to enumerate the tasks. 
-                i += 1
-                add(i,list)
+                #i += 1
+                add(list)
             elif prompt == "modify":
                 modify(list)
             elif prompt == "delete":
@@ -50,13 +50,13 @@ def action(list):
             break
 
 
-def add(n,file):
+def add(file):
     with open(file, "a") as task_add:
         task = input("What task do you want to add?: ")
         date = input("by which day do you think you should finish this task?: ")
 
-        writer = csv.DictWriter(task_add, fieldnames=["N°","task", "date"])
-        writer.writerow({"N°": n,"task": task,"date": date})
+        writer = csv.DictWriter(task_add, fieldnames=["task", "date"])
+        writer.writerow({"task": task,"date": date})
 
     
 
@@ -76,8 +76,8 @@ def view(list):
     with open(list, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            view_list.append({"N°":row["N°"],"task":row["task"],"date": row["date"]})
-    print(tabulate(view_list, tablefmt="heavy_grid" ,headers="keys"))
+            view_list.append({"task":row["task"],"date": row["date"]})
+    print(tabulate(view_list, tablefmt="heavy_grid" ,headers="keys", showindex="rowIDs"))
 
 
 if __name__ == "__main__":
