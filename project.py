@@ -1,4 +1,6 @@
-import argparse, sys,csv, re
+import argparse, sys
+import csv, re
+from tabulate import tabulate
 
 def main():
     # Initialization of the program, it let's you pick either to load a previous list or to create a new one.
@@ -64,11 +66,12 @@ def delete(list):
     ...
 
 def view(list):
+    view_list = []
     with open(list, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            print(row["N°"],row["task"], row["date"])
-        
+            view_list.append({"N°":row["N°"],"task":row["task"],"date": row["date"]})
+    print(tabulate(view_list, tablefmt="heavy_grid" ,headers="keys"))
 
 
 if __name__ == "__main__":
