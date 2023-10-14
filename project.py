@@ -75,7 +75,10 @@ def modify(list):
 
 
 def delete(list):
-    ...
+    task = input("Task you want to delete: ")
+    df = pd.read_csv(list)
+    df = df.drop(df[df.task == task].index)
+    df.to_csv(list, index=False)
 
 def view(list):
     view_list = []
