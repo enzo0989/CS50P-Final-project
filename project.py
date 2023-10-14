@@ -1,5 +1,6 @@
 import argparse, sys
 import csv, re
+import pandas as pd
 from tabulate import tabulate
 
 def main():
@@ -60,7 +61,13 @@ def add(n,file):
     
 
 def modify(list):
-    ...
+    old_task = int(input("Number of the task you want to modify: ")) - 1
+    new_task = input("new task: ")
+    
+    df = pd.read_csv(list)
+    df.loc[old_task,"task"] = new_task
+    df.to_csv(list, index=False)
+
 def delete(list):
     ...
 
