@@ -50,18 +50,17 @@ def action(list):
 
 
 def add(n,file):
-    with open(file, "a") as todo_list:
+    with open(file, "a") as task_add:
         task = input("What task do you want to add?: ")
         date = input("by which day do you think you should finish this task?: ")
 
-        writer = csv.DictWriter(todo_list, fieldnames=["N°","task", "date"])
+        writer = csv.DictWriter(task_add, fieldnames=["N°","task", "date"])
         writer.writerow({"N°": n,"task": task,"date": date})
 
     
 
 def modify(list):
     ...
-
 def delete(list):
     ...
 
