@@ -86,7 +86,8 @@ def view(list):
         reader = csv.DictReader(file)
         for row in reader:
             view_list.append({"task":row["task"],"date": row["date"]})
-    print(tabulate(view_list, tablefmt="heavy_grid" ,headers="keys", showindex="always"))
+    print("\n")
+    print(tabulate(view_list, tablefmt="fancy_outline" ,headers="keys", showindex="always"), "\n")
 
 
 if __name__ == "__main__":
