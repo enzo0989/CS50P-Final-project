@@ -22,7 +22,7 @@ def main():
 def create():
         with open("TodoList.csv", "w") as file_list:
             key_writer = csv.writer(file_list)
-            key_writer.writerow(["task","date"])
+            key_writer.writerow(["task","date", "status"])
         action(file_list.name)
         
 def load(filename): 
@@ -51,8 +51,8 @@ def add(file):
         task = input("What task do you want to add?: ")
         date = input("by which day do you think you should finish this task?: ")
 
-        writer = csv.DictWriter(task_add, fieldnames=["task", "date"])
-        writer.writerow({"task": task,"date": date})
+        writer = csv.DictWriter(task_add, fieldnames=["task", "date", "status"])
+        writer.writerow({"task": task,"date": date, "status": "unfinished"})
 
     
 
@@ -85,10 +85,12 @@ def view(list):
     with open(list, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            view_list.append({"task":row["task"],"date": row["date"]})
+            view_list.append({"task":row["task"],"date": row["date"], "status": row["status"]})
     print("\n")
     print(tabulate(view_list, tablefmt="fancy_outline" ,headers="keys", showindex="always"), "\n")
 
+def state(list):
+    ...
 
 if __name__ == "__main__":
     main()
