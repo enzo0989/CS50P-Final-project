@@ -54,28 +54,42 @@ def action(list):
 
 def add(file):
     with open(file, "a") as task_add:
-        task = input("What task do you want to add?: ")
-        date = input("by which day do you think you should finish this task?: ")
+        while True:
+            try:
+                task = input("New Task: ")
+                date = input("Date to complete it(DD-MM-YYYY): ")
 
-        writer = csv.DictWriter(task_add, fieldnames=["task", "date", "state"])
-        writer.writerow({"task": task,"date": date, "state": "unfinished"})
-
-
+                if task_validation(task) and date_validation(date):
+                    writer = csv.DictWriter(task_add, fieldnames=["task", "date", "state"])
+                    writer.writerow({"task": task,"date": date, "state": "unfinished"})
+                    break
+                else:
+                    raise ValueError()
+                
+            except ValueError:
+                print("\nNot a valid date or task.\nTask: Letters and numbers only. \nDate: DD-MM-YYYY format and greater than 2022. \n")
+                pass
+                
 def modify(list):
     try:
         df = pd.read_csv(list)
         print(len(df))
         old_task = int(input("Number of the task you want to modify: "))
         
-        if old_task > len(df) - 1:    
+        if old_task > len(df) - 1:   
+            print("\nThe task has to exist\n") 
             raise ValueError()
         
         else:
             new_task = input("new task: ")
-            df.loc[old_task,"task"] = new_task
-            df.to_csv(list, index=False)
+            if task_validation(new_task):
+                df.loc[old_task,"task"] = new_task
+                df.to_csv(list, index=False)
+            else:
+                print("\nThe task is not valid.\nTask: Letters and numbers only.\n")
+                raise ValueError()
+
     except ValueError:
-        print("\nThe task to be modified has to exist \n")
         pass
 
 
@@ -111,6 +125,16 @@ def state(list):
     except ValueError:
         print("\nThe task has to exist \n")
         pass
+
+def task_validation(string):
+    task_pattern = r"^[a-zA-Z0-9 ]*$"
+    if re.match(task_pattern,string):
+        return True
+
+def date_validation(date):
+    date_pattern = r"^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(20)[2-9]\d$"
+    if re.match(date_pattern,date):
+        return True
 
 
 if __name__ == "__main__":
