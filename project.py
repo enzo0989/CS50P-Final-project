@@ -121,21 +121,23 @@ def view(list):
     print(tabulate(view_list, tablefmt="fancy_outline" ,headers="keys", showindex="always"), "\n")
 
 def state(list):
-    try:
-        df = pd.read_csv(list)
-        print(len(df))
-        num_state = int(input("Number of the task you want to modify his state: "))
-        
-        if number_validation(df,num_state):    
-            new_state = input("new State: ")
-            df.loc[num_state,"state"] = new_state
-            df.to_csv(list, index=False)
-        else:
-            raise ValueError()
+    while True:
+        try:
+            df = pd.read_csv(list)
+            print(len(df))
+            num_state = int(input("Number of the task you completed: "))
+            
+            if number_validation(df,num_state):    
+                df.loc[num_state,"state"] = "finished"
+                df.to_csv(list, index=False)
+                print("\nState changed successfully!\n")
+                break
+            else:
+                raise ValueError()
 
-    except ValueError:
-        print("\nThe task has to exist. \n")
-        pass
+        except ValueError:
+            print("\nThe task has to exist. \n")
+            pass
 
 def task_validation(string):
     task_pattern = r"^[a-zA-Z0-9 ]*$"
