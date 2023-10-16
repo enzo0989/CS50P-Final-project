@@ -13,20 +13,21 @@ def main():
 
     args = parser.parse_args()
 
-
     if args.create:
-        create()
+        create(args.create)
     elif args.load:
         load(args.load)
 
-def create():
-        with open("TodoList.csv", "w") as file_list:
-            key_writer = csv.writer(file_list)
-            key_writer.writerow(["task","date", "state"])
-        action(file_list.name)
+def create(name):
+    with open(name + ".csv", "w") as file_list:
+        key_writer = csv.writer(file_list)
+        key_writer.writerow(["task","date", "state"])
+    action(file_list.name)
         
-def load(filename): 
-    ...
+def load(filename):
+    with open(filename, "r") as loaded_list:
+        action(loaded_list.name)
+    
 
 def action(list):
     while True:
