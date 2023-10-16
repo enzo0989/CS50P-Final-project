@@ -33,18 +33,21 @@ def action(list):
     while True:
         try:
             prompt = input("What kind of action do you want to perform?: ")
-            if prompt == "add":
-                add(list)
-            elif prompt == "modify":
-                modify(list)
-            elif prompt == "delete":
-                delete(list)
-            elif prompt == "view":
-                view(list)
-            elif prompt == "state":
-                state(list)
-            else:
-                pass
+            match prompt:
+                case "add":
+                    add(list)
+                case "mod":
+                    modify(list)
+                case "del":
+                    delete(list)
+                case "state":
+                    state(list)
+                case "view":
+                    view(list)
+                case "ex":
+                    sys.exit("Have a good day")
+                case _:
+                    pass
         except EOFError:
             break
 
