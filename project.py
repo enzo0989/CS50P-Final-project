@@ -74,20 +74,19 @@ def modify(list):
     try:
         df = pd.read_csv(list)
         print(len(df))
-        old_task = int(input("Number of the task you want to modify: "))
+        num_mod = int(input("Number of the task you want to modify: "))
         
-        if old_task > len(df) - 1 or old_task < 0:   
-            print("\nThe task has to exist\n") 
-            raise ValueError()
-        
-        else:
+        if valid_number(df,num_mod):
             new_task = input("new task: ")
             if task_validation(new_task):
-                df.loc[old_task,"task"] = new_task
+                df.loc[num_mod,"task"] = new_task
                 df.to_csv(list, index=False)
             else:
                 print("\nThe task is not valid.\nTask: Letters and numbers only.\n")
                 raise ValueError()
+        else:
+            print("\nThe task has to exist\n") 
+            raise ValueError()
 
     except ValueError:
         pass
@@ -136,6 +135,12 @@ def date_validation(date):
     if re.match(date_pattern,date):
         return True
 
+def valid_number(df,n):
+    if n > len(df) - 1 or n < 0:
+        return False
+    else:
+        return True
+    
 
 if __name__ == "__main__":
     main()
