@@ -30,9 +30,10 @@ def load(filename):
     
 
 def action(list):
+    show_actions()
     while True:
         try:
-            prompt = input("What kind of action do you want to perform?: ")
+            prompt = input("\nWhat kind of action do you want to perform?: ")
             match prompt:
                 case "add":
                     add(list)
@@ -44,8 +45,10 @@ def action(list):
                     state(list)
                 case "view":
                     view(list)
+                case "actions":
+                    show_actions()
                 case "exit":
-                    sys.exit("Your file will be saved to load it later.\nHave a good day :)")
+                    sys.exit("\nYour file will be saved to load it later.\nHave a good day :)")
                 case _:
                     pass
         except EOFError:
@@ -110,7 +113,6 @@ def delete(list):
             pass
 
 
-
 def view(list):
     view_list = []
     with open(list, "r") as file:
@@ -118,7 +120,7 @@ def view(list):
         for row in reader:
             view_list.append({"task":row["task"],"date": row["date"], "state": row["state"]})
     print("\n")
-    print(tabulate(view_list, tablefmt="fancy_outline" ,headers="keys", showindex="always"), "\n")
+    print(tabulate(view_list, tablefmt="fancy_grid", headers="keys", showindex="always"),"\n")
 
 def state(list):
     while True:
@@ -139,6 +141,16 @@ def state(list):
             print("\nThe task has to exist. \n")
             pass
 
+
+def show_actions():
+    action_list = {"actions": ["add","mod","del","state","view","actions","exit"], 
+                    "result": ["Creates a new task with a date and a state.","Modifies a task.", "Deletes a task.", "Marks a task as completed.",
+                                "Shows the current list.","Shows all the possible actions","Saves the list and exists the program."]}
+    
+    print("\n")
+    print(tabulate(action_list, tablefmt="fancy_grid", headers="keys"))
+
+
 def task_validation(string):
     task_pattern = r"^[a-zA-Z0-9 ]*$"
     if re.match(task_pattern,string):
@@ -155,6 +167,7 @@ def number_validation(df,n):
     else:
         return True
     
+
 
 if __name__ == "__main__":
     main()
