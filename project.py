@@ -22,7 +22,7 @@ def main():
 def create():
         with open("TodoList.csv", "w") as file_list:
             key_writer = csv.writer(file_list)
-            key_writer.writerow(["task","date", "status"])
+            key_writer.writerow(["task","date", "state"])
         action(file_list.name)
         
 def load(filename): 
@@ -40,6 +40,8 @@ def action(list):
                 delete(list)
             elif prompt == "view":
                 view(list)
+            elif prompt == "state":
+                state(list)
             else:
                 pass
         except EOFError:
@@ -51,10 +53,9 @@ def add(file):
         task = input("What task do you want to add?: ")
         date = input("by which day do you think you should finish this task?: ")
 
-        writer = csv.DictWriter(task_add, fieldnames=["task", "date", "status"])
-        writer.writerow({"task": task,"date": date, "status": "unfinished"})
+        writer = csv.DictWriter(task_add, fieldnames=["task", "date", "state"])
+        writer.writerow({"task": task,"date": date, "state": "unfinished"})
 
-    
 
 def modify(list):
     try:
@@ -80,17 +81,33 @@ def delete(list):
     df = df.drop(df[df.task == task].index)
     df.to_csv(list, index=False)
 
+
 def view(list):
     view_list = []
     with open(list, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            view_list.append({"task":row["task"],"date": row["date"], "status": row["status"]})
+            view_list.append({"task":row["task"],"date": row["date"], "state": row["state"]})
     print("\n")
     print(tabulate(view_list, tablefmt="fancy_outline" ,headers="keys", showindex="always"), "\n")
 
 def state(list):
-    ...
+    try:
+        df = pd.read_csv(list)
+        print(len(df))
+        task = int(input("Number of the task you want to modify: "))
+        
+        if task > len(df) - 1:    
+            raise ValueError()
+        
+        else:
+            new_state = input("new State: ")
+            df.loc[task,"state"] = new_state
+            df.to_csv(list, index=False)
+    except ValueError:
+        print("\nThe task has to exist \n")
+        pass
+
 
 if __name__ == "__main__":
     main()
