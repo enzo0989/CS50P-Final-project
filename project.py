@@ -93,10 +93,22 @@ def modify(list):
 
 
 def delete(list):
-    n = int(input(" Number of the task you want to delete: "))
-    df = pd.read_csv(list)
-    df = df.drop(df.index[n])
-    df.to_csv(list, index=False)
+    while True:
+        try:
+            del_num = int(input(" Number of the task you want to delete: "))
+            df = pd.read_csv(list)
+
+            if number_validation(df,del_num):
+                df = df.drop(df.index[del_num])
+                df.to_csv(list, index=False)
+                print("\nTask deleted successfully!\n")
+                break
+            else:
+                raise ValueError()
+        except ValueError:
+            print("\nThe task has to exist.\n")
+            pass
+
 
 
 def view(list):
