@@ -80,9 +80,9 @@ def modify(list):
 
 
 def delete(list):
-    task = input("Task you want to delete: ")
+    n = int(input(" Number of the task you want to delete: "))
     df = pd.read_csv(list)
-    df = df.drop(df[df.task == task].index)
+    df = df.drop(df.index[n])
     df.to_csv(list, index=False)
 
 
