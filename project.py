@@ -44,8 +44,8 @@ def action(list):
                     state(list)
                 case "view":
                     view(list)
-                case "ex":
-                    sys.exit("Have a good day")
+                case "exit":
+                    sys.exit("Your file will be saved to load it later.\nHave a good day :)")
                 case _:
                     pass
         except EOFError:
