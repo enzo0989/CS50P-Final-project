@@ -76,7 +76,7 @@ def modify(list):
         print(len(df))
         num_mod = int(input("Number of the task you want to modify: "))
         
-        if valid_number(df,num_mod):
+        if number_validation(df,num_mod):
             new_task = input("new task: ")
             if task_validation(new_task):
                 df.loc[num_mod,"task"] = new_task
@@ -85,7 +85,7 @@ def modify(list):
                 print("\nThe task is not valid.\nTask: Letters and numbers only.\n")
                 raise ValueError()
         else:
-            print("\nThe task has to exist\n") 
+            print("\nThe task has to exist.\n") 
             raise ValueError()
 
     except ValueError:
@@ -112,17 +112,17 @@ def state(list):
     try:
         df = pd.read_csv(list)
         print(len(df))
-        task = int(input("Number of the task you want to modify: "))
+        num_state = int(input("Number of the task you want to modify his state: "))
         
-        if task > len(df) - 1:    
-            raise ValueError()
-        
-        else:
+        if number_validation(df,num_state):    
             new_state = input("new State: ")
-            df.loc[task,"state"] = new_state
+            df.loc[num_state,"state"] = new_state
             df.to_csv(list, index=False)
+        else:
+            raise ValueError()
+
     except ValueError:
-        print("\nThe task has to exist \n")
+        print("\nThe task has to exist. \n")
         pass
 
 def task_validation(string):
@@ -135,7 +135,7 @@ def date_validation(date):
     if re.match(date_pattern,date):
         return True
 
-def valid_number(df,n):
+def number_validation(df,n):
     if n > len(df) - 1 or n < 0:
         return False
     else:
