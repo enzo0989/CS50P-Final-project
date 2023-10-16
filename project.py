@@ -76,7 +76,7 @@ def modify(list):
         print(len(df))
         old_task = int(input("Number of the task you want to modify: "))
         
-        if old_task > len(df) - 1:   
+        if old_task > len(df) - 1 or old_task < 0:   
             print("\nThe task has to exist\n") 
             raise ValueError()
         
