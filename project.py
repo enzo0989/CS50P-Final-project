@@ -20,6 +20,7 @@ def main():
 
 def create(name):
     with open(name + ".csv", "w") as file_list:
+        #creates the needed keys for the csv file#
         key_writer = csv.writer(file_list)
         key_writer.writerow(["task","date", "state"])
     action(file_list.name)
@@ -33,7 +34,7 @@ def action(list):
     show_actions()
     while True:
         try:
-            prompt = input("\nWhat kind of action do you want to perform?: ")
+            prompt = input("\naction: ")
             match prompt:
                 case "add":
                     add(list)
@@ -45,7 +46,7 @@ def action(list):
                     state(list)
                 case "view":
                     view(list)
-                case "actions":
+                case "act":
                     show_actions()
                 case "exit":
                     sys.exit("\nYour file will be saved to load it later.\nHave a good day :)")
@@ -76,19 +77,20 @@ def add(file):
 def modify(list):
     try:
         df = pd.read_csv(list)
-        print(len(df))
         num_mod = int(input("Number of the task you want to modify: "))
         
         if number_validation(df,num_mod):
             new_task = input("new task: ")
             if task_validation(new_task):
+                # Replaces the task in num_mod position in the task column with a new task. 
+                # e.g if num_mod is equal to 1, the task N°1 will be replaces with the value of new_task.
                 df.loc[num_mod,"task"] = new_task
                 df.to_csv(list, index=False)
             else:
                 print("\nThe task is not valid.\nTask: Letters and numbers only.\n")
                 raise ValueError()
         else:
-            print("\nThe task has to exist.\n") 
+            print("\nThe task has to exist.") 
             raise ValueError()
 
     except ValueError:
@@ -102,9 +104,10 @@ def delete(list):
             df = pd.read_csv(list)
 
             if number_validation(df,del_num):
+                # Uses del_num as an index and deletes the entire row in that position. e.g del_num = 2, all the content in the row N°2 gets deleted.
                 df = df.drop(df.index[del_num])
                 df.to_csv(list, index=False)
-                print("\nTask deleted successfully!\n")
+                print("\nTask deleted successfully!")
                 break
             else:
                 raise ValueError()
@@ -126,13 +129,13 @@ def state(list):
     while True:
         try:
             df = pd.read_csv(list)
-            print(len(df))
             num_state = int(input("Number of the task you completed: "))
             
-            if number_validation(df,num_state):    
+            if number_validation(df,num_state):
+                # Uses num_state as an index and sets that row state value to finished.    
                 df.loc[num_state,"state"] = "finished"
                 df.to_csv(list, index=False)
-                print("\nState changed successfully!\n")
+                print("\nState changed successfully!")
                 break
             else:
                 raise ValueError()
@@ -145,11 +148,14 @@ def state(list):
 def show_actions():
     action_list = {"actions": ["add","mod","del","state","view","actions","exit"], 
                     "result": ["Creates a new task with a date and a state.","Modifies a task.", "Deletes a task.", "Marks a task as completed.",
-                                "Shows the current list.","Shows all the possible actions","Saves the list and exists the program."]}
+                                "Shows the current list.","Shows all the possible actions.","Saves the list and exists the program."]}
     
     print("\n")
     print(tabulate(action_list, tablefmt="fancy_grid", headers="keys"))
 
+
+
+# Functions created because their content repeated in multiple parts of the project.
 
 def task_validation(string):
     task_pattern = r"^[a-zA-Z0-9 ]*$"
