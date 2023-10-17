@@ -18,6 +18,9 @@ def main():
     elif args.load:
         load(args.load)
 
+
+# Used in the beginning of the program 
+
 def create(name):
     with open(name + ".csv", "w") as file_list:
         #creates the needed keys for the csv file#
@@ -29,6 +32,7 @@ def load(filename):
     with open(filename, "r") as loaded_list:
         action(loaded_list.name)
     
+            #-----#
 
 def action(list):
     show_actions()
@@ -74,6 +78,7 @@ def add(file):
                 print("\nNot a valid date or task.\nTask: Letters and numbers only. \nDate: DD-MM-YYYY format and greater than 2022. \n")
                 pass
                 
+
 def modify(list):
     try:
         df = pd.read_csv(list)
@@ -125,6 +130,7 @@ def view(list):
     print("\n")
     print(tabulate(view_list, tablefmt="fancy_grid", headers="keys", showindex="always"),"\n")
 
+
 def state(list):
     while True:
         try:
@@ -154,7 +160,6 @@ def show_actions():
     print(tabulate(action_list, tablefmt="fancy_grid", headers="keys"))
 
 
-
 # Functions created because their content repeated in multiple parts of the project.
 
 def task_validation(string):
@@ -173,7 +178,6 @@ def number_validation(df,n):
     else:
         return True
     
-
 
 if __name__ == "__main__":
     main()
