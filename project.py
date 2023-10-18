@@ -14,9 +14,9 @@ def main():
     args = parser.parse_args()
 
     if args.create:
-        create(args.create)
+        action(create(args.create))
     elif args.load:
-        load(args.load)
+        action(load(args.load))
 
 
 # Used in the beginning of the program 
@@ -26,12 +26,14 @@ def create(name):
         #creates the needed keys for the csv file#
         key_writer = csv.writer(file_list)
         key_writer.writerow(["task","date", "state"])
-    action(file_list.name)
+    return file_list.name 
         
 def load(filename):
-    with open(filename, "r") as loaded_list:
-        action(loaded_list.name)
-    
+    try:
+        with open(filename, "r") as loaded_list:
+            return loaded_list.name 
+    except FileNotFoundError:
+        sys.exit("The file that you are trying to load doesn't exist.")        
             #-----#
 
 def action(list):
@@ -41,7 +43,7 @@ def action(list):
             prompt = input("\naction: ")
             match prompt:
                 case "add":
-                    add(list)
+                    add(list) 
                 case "mod":
                     modify(list)
                 case "del":
@@ -69,8 +71,8 @@ def add(file):
 
                 if task_validation(task) and date_validation(date):
                     writer = csv.DictWriter(task_add, fieldnames=["task", "date", "state"])
-                    writer.writerow({"task": task,"date": date, "state": "unfinished"})
-                    break
+                    return writer.writerow({"task": task,"date": date, "state": "unfinished"})
+                
                 else:
                     raise ValueError()
                 

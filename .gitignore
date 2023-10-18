@@ -1,3 +1,5 @@
 TodoList.csv
 .vscode/settings.json
 week.csv
+__pycache__/project.cpython-310.pyc
+__pycache__/test_project.cpython-310-pytest-7.4.2.pyc
