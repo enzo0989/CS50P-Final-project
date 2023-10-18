@@ -71,8 +71,8 @@ def add(file):
 
                 if task_validation(task) and date_validation(date):
                     writer = csv.DictWriter(task_add, fieldnames=["task", "date", "state"])
-                    return writer.writerow({"task": task,"date": date, "state": "unfinished"})
-                
+                    writer.writerow({"task": task,"date": date, "state": "unfinished"})
+                    break
                 else:
                     raise ValueError()
                 
@@ -107,7 +107,7 @@ def modify(list):
 def delete(list):
     while True:
         try:
-            del_num = int(input(" Number of the task you want to delete: "))
+            del_num = int(input("Number of the task you want to delete: "))
             df = pd.read_csv(list)
 
             if number_validation(df,del_num):
@@ -154,7 +154,7 @@ def state(list):
 
 
 def show_actions():
-    action_list = {"actions": ["add","mod","del","state","view","actions","exit"], 
+    action_list = {"actions": ["add","mod","del","state","view","act","exit"], 
                     "result": ["Creates a new task with a date and a state.","Modifies a task.", "Deletes a task.", "Marks a task as completed.",
                                 "Shows the current list.","Shows all the possible actions.","Saves the list and exists the program."]}
     
