@@ -72,13 +72,13 @@ def add(file):
                 if task_validation(task) and date_validation(date):
                     writer = csv.DictWriter(task_add, fieldnames=["task", "date", "state"])
                     writer.writerow({"task": task,"date": date, "state": "unfinished"})
-                    break
+                    return True
                 else:
                     raise ValueError()
                 
             except ValueError:
                 print("\nNot a valid date or task.\nTask: Letters and numbers only. \nDate: DD-MM-YYYY format and greater than 2022. \n")
-                pass
+                return False
                 
 
 def modify(list):
@@ -93,6 +93,7 @@ def modify(list):
                 # e.g if num_mod is equal to 1, the task N°1 will be replaces with the value of new_task.
                 df.loc[num_mod,"task"] = new_task
                 df.to_csv(list, index=False)
+                return True
             else:
                 print("\nThe task is not valid.\nTask: Letters and numbers only.\n")
                 raise ValueError()
@@ -101,7 +102,7 @@ def modify(list):
             raise ValueError()
 
     except ValueError:
-        pass
+        return False
 
 
 def delete(list):
@@ -115,7 +116,7 @@ def delete(list):
                 df = df.drop(df.index[del_num])
                 df.to_csv(list, index=False)
                 print("\nTask deleted successfully!")
-                break
+                return True
             else:
                 raise ValueError()
         except ValueError:
@@ -144,7 +145,7 @@ def state(list):
                 df.loc[num_state,"state"] = "finished"
                 df.to_csv(list, index=False)
                 print("\nState changed successfully!")
-                break
+                return True
             else:
                 raise ValueError()
 
